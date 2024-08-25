@@ -1,0 +1,5 @@
+build
+conf/hadoop-env.sh
+conf/hadoop-site.xml
+conf/mapred-default.xml
+conf/slaves
