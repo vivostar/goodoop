@@ -1,1 +1,1 @@
-docker compose up -d --scale goodoop=3
+docker compose up -d

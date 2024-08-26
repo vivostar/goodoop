@@ -14,12 +14,63 @@
 # limitations under the License.
 
 services:
-    goodoop:
+    master:
         image: goodoop:goodoop-rockylinux-8
+        hostname: master
         command: /sbin/init
-        domainname: bigtop.apache.org
+        # domainname: bigtop.apache.org
         privileged: true
         # mem_limit: ${MEM_LIMIT}
         volumes:
         - ../:/goodoop
+        networks:
+          sparknet:
+            ipv4_address: 172.28.1.2
+        extra_hosts:
+          - "master:172.28.1.2"
+          - "worker1:172.28.1.3"
+          - "worker2:172.28.1.4"
+
+    worker1:
+        image: goodoop:goodoop-rockylinux-8
+        hostname: worker1
+        command: /sbin/init
+        # domainname: bigtop.apache.org
+        privileged: true
+        # mem_limit: ${MEM_LIMIT}
+        volumes:
+        - ../:/goodoop
+        networks:
+          sparknet:
+            ipv4_address: 172.28.1.3
+        extra_hosts:
+          - "master:172.28.1.2"
+          - "worker1:172.28.1.3"
+          - "worker2:172.28.1.4"
+    
+    worker2:
+        image: goodoop:goodoop-rockylinux-8
+        hostname: worker2
+        command: /sbin/init
+        # domainname: bigtop.apache.org
+        privileged: true
+        # mem_limit: ${MEM_LIMIT}
+        volumes:
+        - ../:/goodoop
+        networks:
+          sparknet:
+            ipv4_address: 172.28.1.4
+        extra_hosts:
+          - "master:172.28.1.2"
+          - "worker1:172.28.1.3"
+          - "worker2:172.28.1.4"
+
+
+
+networks:
+  sparknet:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.28.1.0/16
       
